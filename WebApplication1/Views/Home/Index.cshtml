@@ -1,0 +1,49 @@
+﻿@model IndexHomeViewModel
+@{
+    ViewData["Title"] = "Home Page";
+    var iix = 0;
+}
+
+<form asp-action="Index" method="post">
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <label class="input-group-text" asp-for="EntityTypeId">Entity Type to map</label>
+            </div>
+            <select class="custom-select" asp-for="EntityTypeId" asp-items="Model.EntityTypes">
+                <option value="" selected>Please select entity type to map</option>
+            </select>
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Refresh</button>
+            </div>
+        </div>
+        <span asp-validation-for="EntityTypeId" class="text-danger"></span>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">TableName</th>
+                <th scope="col">Name</th>
+                <th scope="col">Field Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in Model.Columns)
+            {
+                iix++;
+                <tr>
+                    <th scope="row">@iix</th>
+                    <td>@entry.TableName</td>
+                    <td>@entry.Name</td>
+                    <td>@entry.ColumnName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
