@@ -1,24 +1,14 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Dapper;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ImportScenario.Services
 {
-    public class LocalizationService
+    public class LocalizationService : DbServiceBase
     {
-        readonly IConfiguration _config;
-        public LocalizationService(IConfiguration config)
+        public LocalizationService(IConfiguration config) : base(config)
         {
-            _config = config;
-        }
-
-        IDbConnection CreateConnection()
-        {
-            return new SqlConnection(_config.GetConnectionString("ConnectionString"));
         }
 
         public Task<string> GetLocalizedValue(string resourceName)

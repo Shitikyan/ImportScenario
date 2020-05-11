@@ -26,9 +26,9 @@ namespace ImportScenario.Controllers
         {
             var model = new IndexHomeViewModel()
             {
-                EntityTypes = (await _entityStore.GetEntityTypes()).Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = c.Name, Value = c.Id.ToString() }),
+                EntityTypes = (await _entityStore.GetEntityTypes())
+                              .Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = c.Name, Value = c.Id.ToString() }),
                 Columns = Enumerable.Empty<EntityTypeColumn>()
-
             };
             return View(model);
         }
@@ -36,7 +36,7 @@ namespace ImportScenario.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(IndexHomeViewModel model)
         {
-            model.EntityTypes = (await _entityStore.GetEntityTypes()).Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem() { Text = c.Name, Value = c.Id.ToString() });
+            model.EntityTypes = (await _entityStore.GetEntityTypes()).Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = c.Name, Value = c.Id.ToString() });
 
             if (model.EntityTypeId > 0)
             {

@@ -10,13 +10,11 @@ using ImportScenario.Models;
 
 namespace ImportScenario.Services
 {
-    public class EntityStore
+    public class EntityStore : DbServiceBase
     {
-        readonly IConfiguration _config;
         readonly LocalizationService _localizationService;
-        public EntityStore(IConfiguration config, LocalizationService localizationService)
+        public EntityStore(IConfiguration config, LocalizationService localizationService) : base(config)
         {
-            _config = config;
             _localizationService = localizationService;
         }
 
@@ -67,9 +65,7 @@ where e.entitytype=2";
                     EntityTypeId = entityTypeId
                 });
 
-                if (entityType == null)
-                    return null;
-
+                if (entityType == null) return null;
 
                 if (entityType.Type == EntityTypeEnum.Contact)
                 {
@@ -81,11 +77,12 @@ where e.entitytype=2";
                     var excludeColumns = new[] { "TimeZoneId", "LanguageId", "CountryId", "CurrencyId" };
                     result = result.Where(x => !excludeColumns.Contains(x.ColumnName));
 
-                    result = result.Concat(new[] {
+                    result = result.Concat(new[]
+                    {
                         new EntityTypeColumn(){ TableName="omc_Contacts", ColumnName="TimeZone", Name = await (_localizationService.GetLocalizedValue("TimeZone")) },
-                        new EntityTypeColumn(){ TableName="omc_Contacts",ColumnName="Language", Name = await (_localizationService.GetLocalizedValue("Language")) },
-                        new EntityTypeColumn(){ TableName="omc_Contacts",ColumnName="Country", Name = await (_localizationService.GetLocalizedValue("Country")) },
-                        new EntityTypeColumn(){ TableName="omc_Contacts",ColumnName="Currency", Name = await (_localizationService.GetLocalizedValue("Currency")) },
+                        new EntityTypeColumn(){ TableName="omc_Contacts", ColumnName="Language", Name = await (_localizationService.GetLocalizedValue("Language")) },
+                        new EntityTypeColumn(){ TableName="omc_Contacts", ColumnName="Country",  Name = await (_localizationService.GetLocalizedValue("Country")) },
+                        new EntityTypeColumn(){ TableName="omc_Contacts", ColumnName="Currency", Name = await (_localizationService.GetLocalizedValue("Currency")) },
                     });
 
                     for (int i = 0; i < 3; i++)
@@ -164,12 +161,6 @@ where e.entitytype=2";
                 }
                 return result;
             }
-        }
-
-
-        private IDbConnection CreateConnection()
-        {
-            return new SqlConnection(_config.GetConnectionString("ConnectionString"));
         }
     }
 }
