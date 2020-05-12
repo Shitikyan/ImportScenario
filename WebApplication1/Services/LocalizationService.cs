@@ -2,10 +2,11 @@
 using Dapper;
 using System.Data;
 using System.Threading.Tasks;
+using ImportScenario.Stores;
 
 namespace ImportScenario.Services
 {
-    public class LocalizationService : DbServiceBase
+    public class LocalizationService : DbStoreBase
     {
         public LocalizationService(IConfiguration config) : base(config)
         {

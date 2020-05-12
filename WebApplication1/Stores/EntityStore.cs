@@ -3,16 +3,16 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using ImportScenario.Models;
+using ImportScenario.Services;
 
-namespace ImportScenario.Services
+namespace ImportScenario.Stores
 {
-    public class EntityStore : DbServiceBase
+    public class EntityStore : DbStoreBase
     {
-        readonly LocalizationService _localizationService;
+        private readonly LocalizationService _localizationService;
         public EntityStore(IConfiguration config, LocalizationService localizationService) : base(config)
         {
             _localizationService = localizationService;
@@ -21,10 +21,10 @@ namespace ImportScenario.Services
         public async Task<IEnumerable<EntityType>> GetEntityTypes()
         {
             const string qry = @"select e.Id,e.EntityType as Type,e.TableName,ISNULL(el.Name,e.Name) AS Name from omc_CoreEntities e
-left join sys_languages l on TwoLetterCode = @TwoLetterCode
-left join omc_CoreEntityLocalizations el on
-el.languageId = l.Id AND el.CoreEntityId = e.Id
-where EntityType in (3, 1, 4, 5)";
+                                 left join sys_languages l on TwoLetterCode = @TwoLetterCode
+                                 left join omc_CoreEntityLocalizations el on
+                                 el.languageId = l.Id AND el.CoreEntityId = e.Id
+                                 where EntityType in (1, 3, 4, 5)";
             using (IDbConnection conn = CreateConnection())
             {
                 conn.Open();

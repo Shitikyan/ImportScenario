@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ImportScenario.Models
+﻿namespace ImportScenario.Models
 {
     public class EntityType
     {
