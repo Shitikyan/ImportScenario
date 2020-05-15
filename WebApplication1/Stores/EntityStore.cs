@@ -36,22 +36,22 @@ namespace ImportScenario.Stores
         public async Task<IEnumerable<EntityTypeColumn>> GetEntityTypeColumns(int entityTypeId)
         {
             const string qryEntity = @"select e.Id,e.EntityType As Type,e.TableName,ISNULL(el.Name,e.Name) AS Name from omc_CoreEntities e
-left join sys_languages l on TwoLetterCode = @TwoLetterCode
-left join omc_CoreEntityLocalizations el on
-el.languageId = l.Id AND el.CoreEntityId = e.Id
-where e.Id=@EntityTypeId";
+                                       left join sys_languages l on TwoLetterCode = @TwoLetterCode
+                                       left join omc_CoreEntityLocalizations el on
+                                       el.languageId = l.Id AND el.CoreEntityId = e.Id
+                                       where e.Id=@EntityTypeId";
 
             const string qryColumns = @"select ec.Id,e.EntityType AS Type,e.TableName,ISNULL(ecl.Name,ec.Name) AS Name,ec.ColumnName from omc_CoreEntityColumns ec
-inner join omc_CoreEntities e on ec.CoreEntityId = e.Id
-left join sys_languages l on TwoLetterCode = @TwoLetterCode
-left join omc_CoreEntityColumnLocalizations ecl on ecl.languageId = l.Id AND ecl.CoreEntityColumnId = ec.Id
-where e.Id=@EntityTypeId";
+                                        inner join omc_CoreEntities e on ec.CoreEntityId = e.Id
+                                        left join sys_languages l on TwoLetterCode = @TwoLetterCode
+                                        left join omc_CoreEntityColumnLocalizations ecl on ecl.languageId = l.Id AND ecl.CoreEntityColumnId = ec.Id
+                                        where e.Id=@EntityTypeId";
 
             const string qryExtensionColumns = @"select ec.Id,e.EntityType AS Type,e.TableName,ISNULL(ecl.Name,ec.Name) AS Name,ec.ColumnName from omc_CoreEntityColumns ec
-inner join omc_CoreEntities e on ec.CoreEntityId = e.Id
-left join sys_languages l on TwoLetterCode = @TwoLetterCode
-left join omc_CoreEntityColumnLocalizations ecl on ecl.languageId = l.Id AND ecl.CoreEntityColumnId = ec.Id
-where e.entitytype=2";
+                                                 inner join omc_CoreEntities e on ec.CoreEntityId = e.Id
+                                                 left join sys_languages l on TwoLetterCode = @TwoLetterCode
+                                                 left join omc_CoreEntityColumnLocalizations ecl on ecl.languageId = l.Id AND ecl.CoreEntityColumnId = ec.Id
+                                                 where e.entitytype=2";
 
             IEnumerable<EntityTypeColumn> result;
 

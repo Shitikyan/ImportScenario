@@ -1,5 +1,6 @@
 ﻿using ImportScenario.Models;
 using ImportScenario.Services;
+using ImportScenario.Stores;
 using ImportScenario.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -20,7 +21,8 @@ namespace ImportScenario.Controllers
             _entityStore = entityStore;
         }
 
-        public IActionResult Index([FromQuery] List<EntityTypeEnum> types)
+        [HttpGet]
+        public IActionResult Index([FromQuery] List<EntityTypeEnum> entityTypes)
         {
             return View(null);
         }
